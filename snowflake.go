@@ -215,8 +215,8 @@ func (s *Service) Generate(machineID int64, count int) ([]uint64, error) {
 		return nil, badRequest("count must be <= %d, got %d", MaxBatch, count)
 	}
 	s.mu.Lock()
+	defer s.mu.Unlock()
 	g, ok := s.machines[machineID]
-	s.mu.Unlock()
 	if !ok {
 		return nil, notFound("machine %d not registered", machineID)
 	}
